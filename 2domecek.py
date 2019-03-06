@@ -1,16 +1,17 @@
-from turtle import left, right, forward, speed, goto, penup, pendown
+from turtle import left, right, forward, speed, goto, penup, pendown, setup
 from turtle import exitonclick
 from math import sqrt
 
-speed(5)
-strana = 50
-zakladna = sqrt(2)*strana  # vypocet delky zakladny u pravouhleho trojuhelniku
-
+setup(width=1100, height=800)
+speed(8)
 penup()
-goto(-450, 0)
+goto(-400, 0)
 pendown()
 
-for i in range(10):
+
+def domek(strana):
+# vypocet delky zakladny u pravouhleho trojuhelniku
+    zakladna = sqrt(2)*strana
     left(90)
     forward(strana)
     right(30)
@@ -26,7 +27,10 @@ for i in range(10):
     right(135)
     forward(zakladna)
     left(135)
-    forward(75)
+    forward(strana+20)
 
 
+domek(20)
+domek(40)
+domek(60)
 exitonclick()
