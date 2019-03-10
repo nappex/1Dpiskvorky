@@ -1,5 +1,8 @@
 from random import randrange
 
+symbol_hrac = "x"
+symbol_pocitac = "o"
+
 
 def vyhodnot(pole):
     if "xxx" in pole.lower():
@@ -12,18 +15,22 @@ def vyhodnot(pole):
         return "-"
 
 
+def tah(pole, pozice, symbol):
+    pole = pole[:pozice]+symbol+pole[pozice+1:]
+    return pole
+
+
 def tah_hrace(pole):
     "Vrátí herní pole s daným symbolem umístěným na danou pozici"
     while True:
         pozice = int(input("Zadej pozici na kterou chces hrat ? (0-19)\n"))
 
         if 0 <= pozice <= 19 and pole[pozice] == "-":
-            pole = pole[:pozice]+"x"+pole[pozice+1:]
-            return pole
-        elif pole[pozice] == ("x" or "o"):
+            return tah(pole, pozice, symbol_hrac)
+        elif pole[pozice] == symbol_hrac or pole[pozice] == symbol_pocitac:
             print("Na této pozici už byl zahrán tah dříve.")
         else:
-            print("Pozice symbolu je mimo hraci pole ! Znak pro hrani je x/o.")
+            print("Pozice symbolu je mimo hraci pole !")
 
 
 def tah_pocitace(pole):
@@ -31,18 +38,24 @@ def tah_pocitace(pole):
         pozice = randrange(0, 20)
 
         if "x-x" in pole:
-            pole = pole[:pole.index("x-x")+1]+"o"+pole[pole.index("x-x")+2:]
-            return pole
-        elif "-o" in pole:
-            pole = pole[:pole.index("-o")]+"o"+pole[pole.index("-o")+1:]
-            return pole
-        elif "o-" in pole:
-            pole = pole[:pole.index("o-")+1]+"o"+pole[pole.index("o-")+2:]
-            return pole
-        else:
-            if pole[pozice] == "-":
-                pole = pole[:pozice]+"o"+pole[pozice+1:]
-                return pole
+            return tah(pole, pole.index("x-x")+1, symbol_pocitac)
+        elif "-oo" in pole:
+            return tah(pole, pole.index("-oo"), symbol_pocitac)
+        elif "oo-" in pole:
+            return tah(pole, pole.index("oo-")+2, symbol_pocitac)
+        elif "o-o" in pole:
+            return tah(pole, (pole.index("o-o")+1), symbol_pocitac)
+        elif "-xx" in pole:
+            return tah(pole, pole.index("-xx"), symbol_pocitac)
+        elif "xx-" in pole:
+            return tah(pole, pole.index("xx-")+2, symbol_pocitac)
+        elif "-o-" in pole:
+            return tah(pole, pole.index("-o-"), symbol_pocitac)
+        elif "----" in pole:
+            cislo = randrange(1, 4)
+            return tah(pole, (pole.index("----")+cislo), symbol_pocitac)
+        elif pole[pozice] == "-":
+            return tah(pole, pozice, symbol_pocitac)
 
 
 hraci_pole = "-"*20
